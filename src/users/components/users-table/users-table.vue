@@ -342,50 +342,23 @@
 
 <script>
 import { computed, defineComponent, ref } from "vue";
-import { useQuery } from "@urql/vue";
 
-import { filtering } from "./users-table.filtering";
 import organisations from "./components/users-table.organisations.vue";
+import { filtering } from "./users-table.filtering";
 import { sorting } from "./users-table.sorting";
 import { visibility } from "./users-table.visibility";
 
 export default defineComponent({
   components: { organisations },
 
-  setup() {
-    const { data, fetching } = useQuery({
-      query: `{
-        users {
-          _id
-          email
-          emsAgenciesAdministered {
-            _id
-            name
-          }
-          emsAgencyMemberships {
-            _id
-            name
-          }
-          firstName
-          hospitalsAdministered {
-            _id
-            name
-          }
-          hospitalMemberships {
-            _id
-            name
-          }
-          lastName
-          username
-        }
-      }`,
-    });
+  props: ["data", "fetching"],
 
-    const total = computed(() => data.value?.users.length);
+  setup(props) {
+    const total = computed(() => props.data?.users.length);
 
     const users = computed(() => {
-      if (data.value !== undefined) {
-        const allUsers = data.value.users.slice(0, 100);
+      if (props.data !== undefined) {
+        const allUsers = props.data.users.slice(0, 100);
 
         const filteredUsers = allUsers.filter(filtering.makeFilter());
 
@@ -409,7 +382,6 @@ export default defineComponent({
     };
 
     return {
-      fetching,
       filtering,
       organisationsRef,
       showUserOrganisations,
