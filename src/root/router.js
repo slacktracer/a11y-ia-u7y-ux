@@ -4,6 +4,7 @@ import About from "../about/about.vue";
 import Agencies from "../agencies/agencies.vue";
 import Home from "../home/home.vue";
 import Hospitals from "../hospitals/hospitals.vue";
+import User from "../user/user.vue";
 import Users from "../users/users.vue";
 
 const routes = [
@@ -31,6 +32,11 @@ const routes = [
     path: "/users",
     name: "Users",
     component: Users,
+  },
+  {
+    path: "/user/:id",
+    name: "User",
+    component: User,
   },
 ];
 

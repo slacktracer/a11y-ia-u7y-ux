@@ -230,7 +230,13 @@
                 />
               </td>
             </tr>
-            <tr :key="user._id" v-for="user in users">
+            <tr
+              @click="goToUser({ _id: user._id })"
+              @key-up.enter="goToUser({ _id: user._id })"
+              :key="user._id"
+              v-for="user in users"
+              tabindex="0"
+            >
               <td v-if="visibility.columns.username.visible">
                 {{ user.username }}
               </td>
@@ -243,12 +249,13 @@
                 class="text-end"
               >
                 <button
-                  @click="
+                  @click.stop="
                     showUserOrganisations({
                       organisationsPropertyName: 'hospitalsAdministered',
                       user,
                     })
                   "
+                  @keyup.enter.stop
                   class="styleless-button"
                   type="button"
                   v-if="user.hospitalsAdministered?.length"
@@ -266,12 +273,13 @@
                 class="text-end"
               >
                 <button
-                  @click="
+                  @click.stop="
                     showUserOrganisations({
                       organisationsPropertyName: 'hospitalMemberships',
                       user,
                     })
                   "
+                  @keyup.enter.stop
                   class="styleless-button"
                   type="button"
                   v-if="user.hospitalMemberships?.length"
@@ -289,12 +297,13 @@
                 class="text-end"
               >
                 <button
-                  @click="
+                  @click.stop="
                     showUserOrganisations({
                       organisationsPropertyName: 'emsAgenciesAdministered',
                       user,
                     })
                   "
+                  @keyup.enter.stop
                   class="styleless-button"
                   type="button"
                   v-if="user.emsAgenciesAdministered?.length"
@@ -312,12 +321,13 @@
                 class="text-end"
               >
                 <button
-                  @click="
+                  @click.stop="
                     showUserOrganisations({
                       organisationsPropertyName: 'emsAgencyMemberships',
                       user,
                     })
                   "
+                  @keyup.enter.stop
                   class="styleless-button"
                   type="button"
                   v-if="user.emsAgencyMemberships?.length"
@@ -342,6 +352,7 @@
 
 <script>
 import { computed, defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 
 import organisations from "./components/users-table.organisations.vue";
 import { filtering } from "./users-table.filtering";
@@ -358,7 +369,7 @@ export default defineComponent({
 
     const users = computed(() => {
       if (props.data !== undefined) {
-        const allUsers = props.data.users.slice(0, 100);
+        const allUsers = props.data.users.slice(0, 200);
 
         const filteredUsers = allUsers.filter(filtering.makeFilter());
 
@@ -381,8 +392,15 @@ export default defineComponent({
       });
     };
 
+    const router = useRouter();
+
+    const goToUser = ({ _id }) => {
+      router.push({ path: `/user/${_id}` });
+    };
+
     return {
       filtering,
+      goToUser,
       organisationsRef,
       showUserOrganisations,
       sorting,
