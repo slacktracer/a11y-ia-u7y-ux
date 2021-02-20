@@ -1,3 +1,3 @@
 export const makeFilterForStringProperty = ({ string }) => (property) => {
-  return property.toLowerCase().includes(string.toLowerCase());
+  return String(property).toLowerCase().includes(string.toLowerCase());
 };
