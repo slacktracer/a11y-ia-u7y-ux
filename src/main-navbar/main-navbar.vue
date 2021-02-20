@@ -4,7 +4,7 @@
       <router-link class="navbar-brand" to="/">
         <img
           alt="Mekano"
-          src="src/main-navbar/assets/rsz_mekano-big-screenrs.jpg"
+          src="/src/main-navbar/assets/rsz_mekano-big-screenrs.jpg"
         />
       </router-link>
       <button
