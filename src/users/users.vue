@@ -1,7 +1,9 @@
 <template>
   <div class="container mt-4">
     <h1>Users</h1>
-    <users-table :data="data" :fetching="fetching" />
+    <keep-alive>
+      <users-table :data="data" :fetching="fetching" />
+    </keep-alive>
   </div>
 </template>
 
